@@ -76,6 +76,26 @@ Result: an agent that *refuses* to write code based on a deleted file, a depreca
 
 ---
 
+## Cognitive functions BrainCore models
+
+A "memory tool" stores text. A **cognitive layer** models how an agent should
+*think* about that text. BrainCore implements the cognitive functions that
+turn raw retrieval into a brain that can reason — and stay silent when it has to.
+
+| Cognitive function | What BrainCore implements | What's broken without it |
+|---|---|---|
+| **Memory** | Atomic knowledge units with lifecycle: `staging → working → consolidated → archived` | Stale chunks parade as current truth |
+| **Attention** | Strict-mode gate filters by source, confidence, temporal validity, contradiction | Top-k cosine returns everything, agent reads garbage |
+| **Reasoning** | Causal decision chains (`problem → alternatives → decision → reasoning → outcome`) | Three flat fragments, model invents the missing logic |
+| **Perception of code** | AST-based identity (Tree-sitter, 9 langs) — "this symbol", not "this string" | Patches written against deleted branches |
+| **Negative learning** | Failures, regressions, rejected decisions are first-class entities | Agent ships the same bug it shipped 3 months ago |
+| **Metacognition** | Self-model: competencies, blind spots, brain-tasks backlog | Agent doesn't know what it doesn't know |
+| **Abstain** | "I don't know" as a first-class outcome, with an explicit reason | Confident hallucinations indistinguishable from real answers |
+
+These map 1-to-1 onto the [seven architectural principles](#the-seven-principles-braincore-is-built-on) below — every cognitive function has a Postgres schema and a Go module behind it, not a prompt-engineering trick.
+
+---
+
 ## The seven principles BrainCore is built on
 
 The full deep-dive is in [Part 2 of the series](#articles). Headlines:
@@ -239,7 +259,7 @@ The companion `total-agent-memory` is Apache-2.0 today. The full SaaS stack open
 
 ## Founder
 
-Built by [**Vitalii Cherepanov**](https://www.linkedin.com/in/progerinvr/) — 18 years of senior backend, 3 years debugging AI agents in production, currently based in Serbia and writing code for New Zealand teams.
+Built by [**Vitalii Cherepanov**](https://www.linkedin.com/in/progerinvr/) — 18 years of senior backend, 3 years debugging AI agents in production.
 
 - [LinkedIn](https://www.linkedin.com/in/progerinvr/) — engineering posts, weekly
 - [X / @BestProgerVR](https://x.com/BestProgerVR) — short takes on AI memory
