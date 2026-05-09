@@ -10,8 +10,6 @@
 
 <p align="center">
   <a href="https://getbraincore.com">Website</a> ·
-  <a href="https://getbraincore.com/#pricing">Pricing</a> ·
-  <a href="#articles">Series</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="https://github.com/vbcherepanov/total-agent-memory">Open-source companion</a>
 </p>
@@ -27,17 +25,13 @@
 
 ---
 
-## Why this exists — a 3 AM story
+## Why this exists
 
-It's 3 AM. I'm on my third night debugging an AI coding agent. The agent has confidently rewritten the auth function — based on a chunk that belongs to a branch deleted from the repo two months ago.
+You ship code with an AI coding agent. You watch it confidently rewrite a function based on a chunk that belongs to a branch deleted two months ago. Cosine similarity high. Top-1 retrieval. Honest stitch into the prompt. Patch against code from a different reality.
 
-The chunk lived in Qdrant. Its cosine similarity was high. Top-1 in retrieval. The agent honestly grabbed it, honestly stitched it into the prompt, honestly generated the "correct" patch — **against code from a different reality**.
+That's not memory failing. That's **search masquerading as memory** — RAG with cosine instead of BM25.
 
-I close the laptop and think: *I have RAG. I have vectors. I have long-term memory. Why is my agent fixing code that doesn't exist anymore?*
-
-Because **my agent doesn't have memory. My agent has search results with cosine instead of BM25.** And between those two sentences lies the entire difference between *"AI you can trust in production"* and *"AI you babysit on every line."*
-
-**BrainCore is the layer that closes that gap.**
+**BrainCore is the layer that closes that gap.** Every fact your agent uses to generate code passes through a strict-mode gate before it lands in the prompt — and if no fact survives, the agent says *"I don't know"* instead of inventing one.
 
 ---
 
@@ -180,52 +174,15 @@ We don't claim to have invented any single principle. We claim that *all seven h
 
 ### Option A — Cloud (Private Beta)
 
-We're onboarding **design partners** before opening signups.
+BrainCore is currently in **Private Beta**, onboarding design partners by invitation only.
 
-```
-visit       https://getbraincore.com
-request     a Private Beta seat — describe your stack and one painful AI bug
-get back    a signed install link + an API key
-install MCP curl -fsSL https://getbraincore.com/install.sh | bash
-restart     Claude Code / Codex / Cursor
-```
-
-Beta seats are free during the design-partner period. **Production pricing** lands when we exit beta — see [getbraincore.com/#pricing](https://getbraincore.com/#pricing).
+1. Visit [getbraincore.com](https://getbraincore.com) and request a seat — describe your stack and one painful AI bug you'd want the brain to catch.
+2. We send back a signed install link + API key.
+3. Install the MCP wrapper, restart your IDE, ship.
 
 ### Option B — Open-source companion
 
-The local-only memory engine is open-sourced as **[`total-agent-memory`](https://github.com/vbcherepanov/total-agent-memory)** (Apache-2.0). It's the same atomic-knowledge / strict-mode / decision-graph core, minus the multi-tenant SaaS layer and the cloud MCP relay.
-
-```bash
-# Coming soon as a public repo with a one-line installer.
-# Until then, request access via hi@getbraincore.com.
-```
-
----
-
-## Pricing
-
-| Plan | Per dev / mo | What you get |
-|---|---|---|
-| **Solo** | **$20** | 1 dev, 3 active projects, local Ollama, MCP for Claude Code / Codex / Cursor |
-| **Team** | **$50** | up to 10 devs, shared brain across the team, decision-graph audit, fine-grained RLS |
-| **Enterprise** | custom | self-host on your infra, SSO, custom evaluators, SLA |
-
-ROI math we ran with our first design partners: a senior dev burns ≈ 30 minutes a day re-explaining the project to their AI agent. At a $80/hour fully-loaded rate, that's **≈ $880 saved per developer per month**. BrainCore costs ~3% of that.
-
----
-
-## Articles — the three-part deep dive
-
-The product was distilled from a 9000-word essay series. If you want the *why* before the *how*, read these in order:
-
-| # | Title | What it covers | Read time |
-|---|---|---|---|
-| 1 | **[RAG isn't memory. It's Ctrl+F with embeddings.](../ARTICLES/part_1_rag_is_not_memory.md)** | Three holes you can drive a truck through in any vector-RAG "memory" stack | 9 min |
-| 2 | **[Seven principles of real memory for AI agents](../ARTICLES/part_2_seven_principles.md)** | Architecture, formulas, lifecycle. Why you need *all seven* together. | 12 min |
-| 3 | **[The right of an AI agent to stay silent](../ARTICLES/part_3_right_to_abstain.md)** | Why accuracy is the wrong metric. Abstain as a first-class outcome. | 9 min |
-
-Companion publication plan & social copy: [`README_publication_plan.md`](../ARTICLES/README_publication_plan.md).
+The local-only memory engine is open-sourced as **[`total-agent-memory`](https://github.com/vbcherepanov/total-agent-memory)** (Apache-2.0). Same atomic-knowledge / strict-mode / decision-graph core, minus the multi-tenant SaaS layer and the hosted MCP relay.
 
 ---
 
@@ -255,11 +212,11 @@ If your agent speaks MCP stdio — yes. Verified: Claude Code, Codex CLI, Cursor
 **Why "BrainCore" and not "AntivirusForAI"?**
 The marketing positioning evolved. The internal moat is anti-hallucination via 8-layer factcheck (the 8th layer is *grounding against your real source code* — not against a vector index of comments about that code). The product name kept the cognitive metaphor; the value prop is "your agent finally gets to admit it doesn't know."
 
-**Can I self-host the SaaS layer?**
-Enterprise plan only — single-binary deploy, Postgres + Redis + NATS + Ollama, ships in <30 min on a 4 vCPU box. Get in touch.
+**Can I self-host the full SaaS stack?**
+Talk to us — [hi@getbraincore.com](mailto:hi@getbraincore.com). Self-hosted plans land after Private Beta.
 
 **Is the codebase open?**
-The companion `total-agent-memory` is Apache-2.0 today. The full SaaS stack will open progressively as we exit Private Beta.
+The companion `total-agent-memory` is Apache-2.0 today. The full SaaS stack opens progressively as we exit Private Beta.
 
 ---
 
@@ -301,7 +258,6 @@ If you've ever shipped a patch your AI wrote against deleted code — we're buil
 - **Live demo / 30-min call:** book via the website
 
 > *"A good AI agent isn't the one that always answers. It's the one that never confidently does the wrong thing."*
-> — from Part 3 of the series
 
 ---
 
